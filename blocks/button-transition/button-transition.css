@@ -1,7 +1,6 @@
 .button-transition {
   transition: opacity 0.2s;
 }
-
 .button-transition:hover {
   cursor: pointer;
   opacity: 0.6;

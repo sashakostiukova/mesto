@@ -9,7 +9,6 @@
     padding: 40px 27px 50px;
   }
 }
-
 @media screen and (max-width: 768px) {
   .profile {
     flex-direction: column;
@@ -17,7 +16,6 @@
     gap: 0;
   }
 }
-
 @media screen and (max-width: 425px) {
   .profile {
     padding: 42px 19px 36px;

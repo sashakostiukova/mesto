@@ -6,7 +6,7 @@
   border-radius: 2px;
   margin-left: auto;
   margin-top: 35px;
-  background: #000000 url(../../images/add-button.svg) no-repeat center;
+  background: transparent url(../../images/add-button.svg) no-repeat center;
 }
 
 @media screen and (max-width: 768px) {
@@ -15,7 +15,6 @@
     width: 330px;
   }
 }
-
 @media screen and (max-width: 425px) {
   .add-button {
     width: 282px;

@@ -18,9 +18,9 @@
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <button class="profile__edit-button button-transition" type="button"></button>
+        <button class="profile__edit-button button-transition" type="button" aria-label="Кнопка редактирования профиля"></button>
       </div>
-      <button class="add-button button-transition" type="button"></button>
+      <button class="add-button button-transition" type="button" aria-label="Кнопка загрузки нового изображения на сайт"></button>
     </section>
     <section class="places section" aria-label="секция с карточками мест">
       <article class="place">
@@ -29,7 +29,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Дагестан</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
       <article class="place">
@@ -38,7 +38,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Гора Эльбрус</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
       <article class="place">
@@ -47,7 +47,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Домбай</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
       <article class="place">
@@ -56,7 +56,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Башкортостан</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
       <article class="place">
@@ -65,7 +65,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Остров Итуруп</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
       <article class="place">
@@ -74,7 +74,7 @@
           class="place__image">
         <div class="place__caption-container">
           <h2 class="place__title">Карачаево-Черкессия</h2>
-          <button class="place__like-button" type="button"></button>
+          <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
       </article>
     </section>
@@ -83,14 +83,16 @@
     <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
   </footer>
   <div class="popup">
-    <form class="popup__container">
-      <button class="popup__close-button button-transition" type="button"></button>
+    <div class="popup__container">
+      <button class="popup__close-button button-transition" type="button" aria-label="Кнопка закрытия окна редактирования"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <input class="popup__input popup__input_type_name" type="text">
-      <input class="popup__input popup__input_type_description" type="text">
-      <button type="submit" class="popup__save-button">Сохранить</button>
-    </form>
+      <form name="edit-profile-form" class="popup__form">
+        <input name="name" class="popup__input popup__input_type_name" type="text">
+        <input name="description" class="popup__input popup__input_type_description" type="text">
+        <button type="submit" class="popup__save-button">Сохранить</button>
+      </form>
+    </div>
   </div>
-  <script src="./index.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
