@@ -19,7 +19,6 @@ const inputLink = popupAddPlace.querySelector('.popup__input_type_link');
 
 const popupImageView = document.querySelector('.popup-imageview');
 const popupImageViewImg = document.querySelector('.popup-imageview__img');
-console.log(popupImageViewImg);
 const popupImageViewCaption = document.querySelector('.popup-imageview__caption');
 
 const initialCards = [
@@ -49,7 +48,7 @@ const initialCards = [
   }
 ]; 
 
-//editProfileButton.addEventListener('click', () => openPopup(popupEditProfile));
+
 function openPopup (popupElement) {
   popupElement.classList.toggle('popup_opened');
 };
@@ -67,12 +66,14 @@ function editProfileFormSubmit (evt) {
 
 function AddPlaceFormSubmit (evt) {
   evt.preventDefault();
-  const title = inputTitle.value;
-  const link = inputLink.value;
-  const placeCard = createPlaceCard({title, link});
-  placesContainer.prepend(placeCard);
-  closePopup(popupAddPlace);
-}
+  if (inputTitle.value !== '' && inputLink.value !== '') {
+    const title = inputTitle.value;
+    const link = inputLink.value;
+    const placeCard = createPlaceCard({title, link});
+    placesContainer.prepend(placeCard);
+    closePopup(popupAddPlace);
+  }
+};
 
 
 const createPlaceCard = ({title, link}) => {

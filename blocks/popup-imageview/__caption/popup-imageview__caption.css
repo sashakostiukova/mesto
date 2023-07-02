@@ -5,4 +5,6 @@
   color: #FFFFFF;
   font-size: 12px;
   line-height: normal;
+  max-width: 75vw;
+  box-sizing: border-box;
 }
