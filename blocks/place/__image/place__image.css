@@ -3,3 +3,6 @@
   width: 100%;
   min-height: 282px;
 }
+.place__image:hover {
+  cursor: pointer;
+}

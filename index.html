@@ -18,12 +18,14 @@
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <button class="profile__edit-button button-transition" type="button" aria-label="Кнопка редактирования профиля"></button>
+        <button class="profile__edit-button button-transition" type="button" 
+        aria-label="Кнопка редактирования профиля"></button>
       </div>
-      <button class="add-button button-transition" type="button" aria-label="Кнопка загрузки нового изображения на сайт"></button>
+      <button class="add-button button-transition" type="button" 
+      aria-label="Кнопка загрузки нового изображения на сайт"></button>
     </section>
     <section class="places section" aria-label="секция с карточками мест">
-      <article class="place">
+      <!--<article class="place">
         <img src="./images/places/dagestan.jpg" 
           alt="Вид на реку, расположенную в долине между двух горных хребтов Дагестана" 
           class="place__image">
@@ -76,23 +78,57 @@
           <h2 class="place__title">Карачаево-Черкессия</h2>
           <button class="place__like-button" type="button" aria-label="Кнопка поставить или убрать лайк"></button>
         </div>
-      </article>
+      </article>-->
     </section>
   </main>
   <footer class="footer section">
     <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <div class="popup popup-edit-profile">
     <div class="popup__container">
-      <button class="popup__close-button button-transition" type="button" aria-label="Кнопка закрытия окна редактирования"></button>
+      <button class="popup__close-button button-transition" type="button" 
+      aria-label="Кнопка закрытия окна редактирования"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="edit-profile-form" class="popup__form">
+      <form name="edit-profile-form" class="edit-profile-form">
         <input name="name" class="popup__input popup__input_type_name" type="text">
         <input name="description" class="popup__input popup__input_type_description" type="text">
         <button type="submit" class="popup__save-button">Сохранить</button>
       </form>
     </div>
   </div>
-  <script src="./scripts/index.js"></script>
+  <div class="popup popup-add-place">
+    <div class="popup__container">
+      <button class="popup__close-button popup-add-place__close-button button-transition" type="button" 
+      aria-label="Кнопка закрытия формы создания карточки"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <form name="add-place-form" class="add-place-form">
+        <input name="title" class="popup__input popup__input_type_title" type="text" placeholder="Название">
+        <input name="link" class="popup__input popup__input_type_link" type="text" placeholder="Ссылка на картинку">
+        <button type="submit" class="popup__save-button">Создать</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup-imageview">
+    <figure class="popup-imageview__figure">
+      <button class="popup__close-button button-transition" type="button" 
+      aria-label="Кнопка закрытия окна просмотра изображения"></button>
+      <img src="" alt="" class="popup-imageview__img">
+      <figcaption class="popup-imageview__caption"></figcaption>
+    </figure>
+  </div>
+  <template class="place-template">
+    <article class="place">
+      <img src="" alt="" class="place__image">
+      <div class="place__caption-container">
+        <h2 class="place__title"></h2>
+        <button class="place__like-button" type="button" 
+        aria-label="Кнопка поставить или убрать лайк"></button>
+      </div>
+      <button class="place__delete-button" type="button" 
+      aria-label="Кнопка удаления карточки"></button>
+    </article>
+
+  </template>
+<script src="./scripts/index.js"></script>
 </body>
 </html>
