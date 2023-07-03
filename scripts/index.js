@@ -11,43 +11,15 @@ const profileDescription = document.querySelector('.profile__description');
 const template = document.querySelector('.place-template');
 const placesContainer = document.querySelector('.places');
 
-const AddPlaceButton = document.querySelector('.add-button');
+const addPlaceButton = document.querySelector('.add-button');
 const popupAddPlace = document.querySelector('.popup-add-place');
-const AddPlaceForm = document.querySelector('.add-place-form');
+const addPlaceForm = document.querySelector('.add-place-form');
 const inputTitle = popupAddPlace.querySelector('.popup__input_type_title');
 const inputLink = popupAddPlace.querySelector('.popup__input_type_link');
 
 const popupImageView = document.querySelector('.popup-imageview');
 const popupImageViewImg = document.querySelector('.popup-imageview__img');
 const popupImageViewCaption = document.querySelector('.popup-imageview__caption');
-
-const initialCards = [
-  {
-    title: 'Дагестан',
-    link: './images/places/dagestan.jpg'
-  },
-  {
-    title: 'Гора Эльбрус',
-    link: './images/places/elbrus.jpg'
-  },
-  {
-    title: 'Домбай',
-    link: './images/places/dombay.jpg'
-  },
-  {
-    title: 'Башкортостан',
-    link: './images/places/bashkortostan.jpg'
-  },
-  {
-    title: 'Остров Итуруп',
-    link: './images/places/iturup.jpg'
-  },
-  {
-    title: 'Карачаево-Черкессия',
-    link: './images/places/karachayevsk.jpg'
-  }
-]; 
-
 
 function openPopup (popupElement) {
   popupElement.classList.toggle('popup_opened');
@@ -64,23 +36,20 @@ function editProfileFormSubmit (evt) {
   closePopup(popupEditProfile);
 }
 
-function AddPlaceFormSubmit (evt) {
+function addPlaceFormSubmit (evt) {
   evt.preventDefault();
-  if (inputTitle.value !== '' && inputLink.value !== '') {
-    const title = inputTitle.value;
-    const link = inputLink.value;
-    const placeCard = createPlaceCard({title, link});
-    placesContainer.prepend(placeCard);
-    closePopup(popupAddPlace);
-  }
+  const name = inputTitle.value;
+  const link = inputLink.value;
+  const placeCard = createPlaceCard({name, link});
+  placesContainer.prepend(placeCard);
+  closePopup(popupAddPlace);
 };
 
-
-const createPlaceCard = ({title, link}) => {
+const createPlaceCard = ({name, link}) => {
   const clone = template.content.cloneNode(true);
   const placeCard = clone.querySelector('.place');
-  placeCard.querySelector('.place__title').textContent = title;
-  placeCard.querySelector('.place__image').alt = title;
+  placeCard.querySelector('.place__title').textContent = name;
+  placeCard.querySelector('.place__image').alt = name;
   placeCard.querySelector('.place__image').src = link;
 
   const placeLikeButton = placeCard.querySelector('.place__like-button');
@@ -97,18 +66,22 @@ const createPlaceCard = ({title, link}) => {
   placeImage.addEventListener('click', () => {
     openPopup(popupImageView);
     popupImageViewImg.src = link;
-    popupImageViewImg.alt = title;
-    popupImageViewCaption.textContent = title;
+    popupImageViewImg.alt = name;
+    popupImageViewCaption.textContent = name;
 
   })
 
   return placeCard;
-
-}
+};
 
 initialCards.forEach((item) => {
   const placeCard = createPlaceCard(item);
   placesContainer.append(placeCard);
+});
+
+popupCloseButtons.forEach((button) => {
+  const buttonsPopup = button.closest('.popup');
+  button.addEventListener('click', () => closePopup(buttonsPopup));
 });
 
 editProfileButton.addEventListener('click', () => {
@@ -117,24 +90,12 @@ editProfileButton.addEventListener('click', () => {
   inputDescription.value = profileDescription.textContent;
 });
 
-popupCloseButtons[0].addEventListener('click', () => {
-  closePopup(popupEditProfile);
-});
-
 editProfileForm.addEventListener('submit', editProfileFormSubmit);
 
-AddPlaceButton.addEventListener('click', () => {
+addPlaceButton.addEventListener('click', () => {
   openPopup(popupAddPlace);
   inputTitle.value = null;
   inputLink.value = null;
 });
 
-popupCloseButtons[1].addEventListener('click', () => {
-  closePopup(popupAddPlace);
-});
-
-AddPlaceForm.addEventListener('submit', AddPlaceFormSubmit);
-
-popupCloseButtons[2].addEventListener('click', () => {
-  closePopup(popupImageView);
-});
+addPlaceForm.addEventListener('submit', addPlaceFormSubmit);
