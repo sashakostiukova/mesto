@@ -12,6 +12,7 @@ const template = document.querySelector('.place-template');
 const placesContainer = document.querySelector('.places');
 
 const addPlaceButton = document.querySelector('.add-button');
+const addPlaceButton = document.querySelector('.add-button');
 const popupAddPlace = document.querySelector('.popup-add-place');
 const addPlaceForm = document.querySelector('.add-place-form');
 const inputTitle = popupAddPlace.querySelector('.popup__input_type_title');
@@ -49,6 +50,7 @@ function editProfileFormSubmit (evt) {
 }
 
 function addPlaceFormSubmit (evt) {
+function addPlaceFormSubmit (evt) {
   evt.preventDefault();
   const name = inputTitle.value;
   const link = inputLink.value;
@@ -58,8 +60,11 @@ function addPlaceFormSubmit (evt) {
 };
 
 const createPlaceCard = ({name, link}) => {
+const createPlaceCard = ({name, link}) => {
   const clone = template.content.cloneNode(true);
   const placeCard = clone.querySelector('.place');
+  placeCard.querySelector('.place__title').textContent = name;
+  placeCard.querySelector('.place__image').alt = name;
   placeCard.querySelector('.place__title').textContent = name;
   placeCard.querySelector('.place__image').alt = name;
   placeCard.querySelector('.place__image').src = link;
@@ -80,10 +85,13 @@ const createPlaceCard = ({name, link}) => {
     popupImageViewImg.src = link;
     popupImageViewImg.alt = name;
     popupImageViewCaption.textContent = name;
+    popupImageViewImg.alt = name;
+    popupImageViewCaption.textContent = name;
 
   })
 
   return placeCard;
+};
 };
 
 initialCards.forEach((item) => {
