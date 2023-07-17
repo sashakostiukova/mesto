@@ -8,18 +8,6 @@
   display: block;
   border: none;
   border-bottom: 1px solid #00000033;
-  margin-bottom: 34px;
-}
-.popup__input:last-of-type {
-  margin-bottom: 53px;
-}
-
-@media screen and (max-width: 640px) {
-  .popup__input {
-    margin-bottom: 36px;
-  }
-  .popup__input:last-of-type {
-    margin-bottom: 51px;
-  }
+  margin-bottom: 5px;
 }
 
