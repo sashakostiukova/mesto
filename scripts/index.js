@@ -21,9 +21,19 @@ const popupImageView = document.querySelector('.popup-imageview');
 const popupImageViewImg = document.querySelector('.popup-imageview__img');
 const popupImageViewCaption = document.querySelector('.popup-imageview__caption');
 
-const popupElements = document.querySelectorAll('.popup');
+function openPopup (popupElement, config) {
 
-function openPopup (popupElement) {
+  if (!popupElement.classList.contains('popup-imageview')) {
+    const buttonElement = popupElement.querySelector(config.submitButtonSelector);
+    disableSubmitButton (buttonElement, config);
+
+    const inputElements = popupElement.querySelectorAll(config.inputSelector);
+    inputElements.forEach((inputElement) => {
+      hideError(popupElement, inputElement, config);
+    })
+    
+  }
+
   popupElement.classList.toggle('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
@@ -39,7 +49,6 @@ function closePopup (popupElement) {
   popupElement.classList.toggle('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 };
-
 
 function editProfileFormSubmit (evt) {
   evt.preventDefault();
@@ -94,20 +103,16 @@ initialCards.forEach((item) => {
 popupCloseButtons.forEach((button) => {
   const buttonsPopup = button.closest('.popup');
   button.addEventListener('click', () => closePopup(buttonsPopup));
-});
 
-popupElements.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-
+  buttonsPopup.addEventListener('mousedown', (evt) => {
     if (evt.target === evt.currentTarget) {
-      closePopup(popup);
+      closePopup(buttonsPopup);
     }    
-
   });
 });
 
 editProfileButton.addEventListener('click', () => {
-  openPopup(popupEditProfile); 
+  openPopup(popupEditProfile, VALIDATION_CONFIG); 
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
 });
@@ -115,7 +120,7 @@ editProfileButton.addEventListener('click', () => {
 editProfileForm.addEventListener('submit', editProfileFormSubmit);
 
 addPlaceButton.addEventListener('click', () => {
-  openPopup(popupAddPlace);
+  openPopup(popupAddPlace, VALIDATION_CONFIG)
   inputTitle.value = null;
   inputLink.value = null;
 });
