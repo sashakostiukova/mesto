@@ -21,22 +21,23 @@ const popupImageView = document.querySelector('.popup-imageview');
 const popupImageViewImg = document.querySelector('.popup-imageview__img');
 const popupImageViewCaption = document.querySelector('.popup-imageview__caption');
 
-function openPopup (popupElement, config) {
-
-  if (!popupElement.classList.contains('popup-imageview')) {
-    const buttonElement = popupElement.querySelector(config.submitButtonSelector);
-    disableSubmitButton (buttonElement, config);
-
-    const inputElements = popupElement.querySelectorAll(config.inputSelector);
-    inputElements.forEach((inputElement) => {
-      hideError(popupElement, inputElement, config);
-    })
-    
-  }
-
+function openPopup (popupElement) {
   popupElement.classList.toggle('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
+
+function openPopupForm (popupElement, config) {
+
+  const buttonElement = popupElement.querySelector(config.submitButtonSelector);
+  disableSubmitButton (buttonElement, config);
+
+  const inputElements = popupElement.querySelectorAll(config.inputSelector);
+  inputElements.forEach((inputElement) => {
+    hideError(popupElement, inputElement, config);
+  });
+
+  openPopup(popupElement);
+}
 
 function closePopupByEsc (event) {
   if (event.key === 'Escape') {
@@ -89,7 +90,6 @@ const createPlaceCard = ({name, link}) => {
     popupImageViewImg.src = link;
     popupImageViewImg.alt = name;
     popupImageViewCaption.textContent = name;
-
   })
 
   return placeCard;
@@ -112,7 +112,7 @@ popupCloseButtons.forEach((button) => {
 });
 
 editProfileButton.addEventListener('click', () => {
-  openPopup(popupEditProfile, VALIDATION_CONFIG); 
+  openPopupForm(popupEditProfile, VALIDATION_CONFIG); 
   inputName.value = profileName.textContent;
   inputDescription.value = profileDescription.textContent;
 });
@@ -120,7 +120,7 @@ editProfileButton.addEventListener('click', () => {
 editProfileForm.addEventListener('submit', editProfileFormSubmit);
 
 addPlaceButton.addEventListener('click', () => {
-  openPopup(popupAddPlace, VALIDATION_CONFIG)
+  openPopupForm(popupAddPlace, VALIDATION_CONFIG)
   inputTitle.value = null;
   inputLink.value = null;
 });
