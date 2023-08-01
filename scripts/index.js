@@ -1,3 +1,6 @@
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
 const editProfileButton = document.querySelector('.profile__edit-button');
 const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 const popupEditProfile = document.querySelector('.popup-edit-profile');
@@ -8,7 +11,6 @@ const inputDescription = popupEditProfile.querySelector('.popup__input_type_desc
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 
-const template = document.querySelector('.place-template');
 const placesContainer = document.querySelector('.places');
 
 const addPlaceButton = document.querySelector('.add-button');
@@ -17,11 +19,45 @@ const addPlaceForm = document.querySelector('.add-place-form');
 const inputTitle = popupAddPlace.querySelector('.popup__input_type_title');
 const inputLink = popupAddPlace.querySelector('.popup__input_type_link');
 
-const popupImageView = document.querySelector('.popup-imageview');
-const popupImageViewImg = document.querySelector('.popup-imageview__img');
-const popupImageViewCaption = document.querySelector('.popup-imageview__caption');
+const formList = Array.from(document.querySelectorAll('.popup__form'));
 
-function openPopup (popupElement) {
+const initialCards = [
+  {
+    name: 'Дагестан',
+    link: './images/places/dagestan.jpg'
+  },
+  {
+    name: 'Гора Эльбрус',
+    link: './images/places/elbrus.jpg'
+  },
+  {
+    name: 'Домбай',
+    link: './images/places/dombay.jpg'
+  },
+  {
+    name: 'Башкортостан',
+    link: './images/places/bashkortostan.jpg'
+  },
+  {
+    name: 'Остров Итуруп',
+    link: './images/places/iturup.jpg'
+  },
+  {
+    name: 'Карачаево-Черкессия',
+    link: './images/places/karachayevsk.jpg'
+  }
+]; 
+
+const VALIDATION_CONFIG = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
+export function openPopup (popupElement) {
   popupElement.classList.toggle('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
@@ -39,7 +75,18 @@ function openPopupForm (popupElement, config) {
   openPopup(popupElement);
 }
 
-function closePopupByEsc (event) {
+function disableSubmitButton (buttonElement, config) {
+  buttonElement.classList.add(config.inactiveButtonClass);
+  buttonElement.disabled = true;
+}
+
+function hideError(formElement, inputElement, config) {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  errorElement.classList.remove(config.errorClass);
+  inputElement.classList.remove(config.inputErrorClass);
+}
+
+export function closePopupByEsc (event) {
   if (event.key === 'Escape') {
     const popup = document.querySelector('.popup_opened');
     closePopup(popup);
@@ -62,43 +109,31 @@ function addPlaceFormSubmit (evt) {
   evt.preventDefault();
   const name = inputTitle.value;
   const link = inputLink.value;
-  const placeCard = createPlaceCard({name, link});
-  placesContainer.prepend(placeCard);
+
+  const placeCard = new Card({name, link}, '.place-template');
+  placesContainer.prepend(placeCard.generateCard());
   closePopup(popupAddPlace);
 };
 
-const createPlaceCard = ({name, link}) => {
-  const clone = template.content.cloneNode(true);
-  const placeCard = clone.querySelector('.place');
-  placeCard.querySelector('.place__title').textContent = name;
-  placeCard.querySelector('.place__image').alt = name;
-  placeCard.querySelector('.place__image').src = link;
+//Рендер карточек
 
-  const placeLikeButton = placeCard.querySelector('.place__like-button');
-  placeLikeButton.addEventListener('click', () => {
-    placeLikeButton.classList.toggle('place__like-button_active');
-  });
-
-  const placeDeleteButton = placeCard.querySelector('.place__delete-button');
-  placeDeleteButton.addEventListener('click', () => {
-    placeCard.remove();
-  });
-
-  const placeImage = placeCard.querySelector('.place__image');
-  placeImage.addEventListener('click', () => {
-    openPopup(popupImageView);
-    popupImageViewImg.src = link;
-    popupImageViewImg.alt = name;
-    popupImageViewCaption.textContent = name;
-  })
-
-  return placeCard;
-};
+const renderPlaceCard = (data, selector) => {
+  const placeCard = new Card(data, selector);
+  placesContainer.append(placeCard.generateCard());
+}
 
 initialCards.forEach((item) => {
-  const placeCard = createPlaceCard(item);
-  placesContainer.append(placeCard);
+  renderPlaceCard(item, '.place-template');
 });
+
+//Валидация форм
+
+formList.forEach((formElement) => {
+  const newValidator = new FormValidator(VALIDATION_CONFIG, formElement);
+  newValidator.enableValidation();
+})
+
+//Перебор попапов и установка слушателей на кнопки закрытия и клик вне попапа
 
 popupCloseButtons.forEach((button) => {
   const buttonsPopup = button.closest('.popup');
