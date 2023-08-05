@@ -1,10 +1,10 @@
-import { closePopupByEsc, openPopup } from './index.js';
-
 export default class Card {
-  constructor (data, selector) {
+  constructor (data, selector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._selector = selector;
+
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -19,12 +19,12 @@ export default class Card {
 
   _setData() {
     this._newCard.querySelector('.place__title').textContent = this._name;
-    this._newCard.querySelector('.place__image').alt = this._name;
-    this._newCard.querySelector('.place__image').src = this._link;
+    this._cardImage.alt = this._name;
+    this._cardImage.src = this._link;
   }
 
   _handleClickLike() {
-    this._newCard.querySelector('.place__like-button')
+    this._placeLikeButton
     .classList.toggle('place__like-button_active');
   }
 
@@ -32,30 +32,22 @@ export default class Card {
     this._newCard.remove();
   }
 
-  _handleClickOpen() {
-    const popup = document.querySelector('.popup-imageview');
-    openPopup(popup);
-
-    document.querySelector('.popup-imageview__img').src = this._link;
-    document.querySelector('.popup-imageview__img').alt = this._name;
-    document.querySelector('.popup-imageview__caption').textContent = this._name;
-
-    document.addEventListener('keydown', closePopupByEsc);
-  }
-
   _setListeners() {
-    const placeLikeButton = this._newCard.querySelector('.place__like-button');
-    placeLikeButton.addEventListener('click', () => this._handleClickLike());
+    this._placeLikeButton.addEventListener('click', () => this._handleClickLike());
 
     const placeDeleteButton = this._newCard.querySelector('.place__delete-button');
     placeDeleteButton.addEventListener('click', () => this._handleClickDelete());
 
-    const placeImage = this._newCard.querySelector('.place__image');
-    placeImage.addEventListener('click', () => this._handleClickOpen());
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick(this._name, this._link)
+    });
   }
 
   generateCard() {
     this._newCard = this._getTemplate();
+    this._cardImage = this._newCard.querySelector('.place__image');
+    this._placeLikeButton = this._newCard.querySelector('.place__like-button');
+    
     this._setData();
     this._setListeners();
 
