@@ -62,7 +62,7 @@ const VALIDATION_CONFIG = {
 const formValidators = {}
 
 export function openPopup (popupElement) {
-  popupElement.classList.toggle('popup_opened');
+  popupElement.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupByEsc);
 };
 
@@ -81,7 +81,7 @@ export function closePopupByEsc (event) {
 };
 
 function closePopup (popupElement) {
-  popupElement.classList.toggle('popup_opened');
+  popupElement.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
 };
 
@@ -97,10 +97,9 @@ function handlePlaceFormSubmit (evt) {
   const name = inputTitle.value;
   const link = inputLink.value;
 
-  const placeCard = new Card({name, link}, '.place-template', handleCardClick);
-  placesContainer.prepend(placeCard.generateCard());
+  const placeCard = createCard({name, link}, '.place-template', handleCardClick);
+  placesContainer.prepend(placeCard);
   closePopup(popupAddPlace);
-
 };
 
 //Рендер карточек
@@ -115,9 +114,7 @@ const renderPlaceCard = (data) => {
   placesContainer.append(placeCard);
 }
 
-initialCards.forEach((item) => {
-  renderPlaceCard(item);
-});
+initialCards.forEach(renderPlaceCard);
 
 // Включение валидации
 
