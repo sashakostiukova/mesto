@@ -7,6 +7,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
   }
 
+  // получили разметку
   _getTemplate() {
     const cardElement = document
       .querySelector(this._selector)
@@ -17,6 +18,8 @@ export default class Card {
     return cardElement;  
   }
 
+
+  // наполнили разметку данными
   _setData() {
     this._newCard.querySelector('.place__title').textContent = this._name;
     this._cardImage.alt = this._name;
