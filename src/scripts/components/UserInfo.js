@@ -14,11 +14,10 @@ export default class UserInfo {
 // публичный метод, который возвращает объект 
 // с данными пользователя.
   getUserInfo() {
-    const userData = {};
-    userData.name = this._name.textContent;
-    userData.description = this._description.textContent;
- 
-    return userData;
+    return {
+      name: this._name.textContent,
+      description: this._description.textContent,
+    };
   }
 
 // публичный метод, который принимает 

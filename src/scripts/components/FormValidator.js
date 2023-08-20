@@ -1,6 +1,5 @@
 export default class FormValidator {
   constructor(config, formElement) {
-    this._formSelector = config.formSelector;
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._inactiveButtonClass = config.inactiveButtonClass;
@@ -26,10 +25,10 @@ export default class FormValidator {
   }
 
   _validate(inputElement) {
-    this._hideError(inputElement);
-
     if (!inputElement.validity.valid) {
       this._showError(inputElement, inputElement.validationMessage);
+    } else {
+      this._hideError(inputElement);
     }
   }
 

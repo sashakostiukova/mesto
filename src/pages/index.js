@@ -22,30 +22,31 @@ import {
   formValidators
 } from '../scripts/utils/constants.js';
 
+// Обработчик клика на изображение карточки:
+
 function handleCardClick(name, link) {
-  const popupWithImage = new PopupWithImage('.popup-imageview', {name, link});
-  popupWithImage.open();
+  popupImgView.open(name, link);
 }
 
-//Рендер карточек
+// Рендер карточек:
 
 function createCard(data) {
   const cardElement = new Card(data, '.place-template', handleCardClick);
   return cardElement.generateCard();
 }
 
-const defaultCardList = new Section({
+const cardsSection = new Section({
   items: initialCards,
   renderer: (item) => {
     const placeCard = createCard(item);
-    defaultCardList.addItem(placeCard);
+    cardsSection.addItem(placeCard);
    }
   }, placesContainerSelector
 );
 
-defaultCardList.renderItems();
+cardsSection.renderItems();
 
-// Включение валидации
+// Включение валидации:
 
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector))
@@ -59,71 +60,74 @@ const enableValidation = (config) => {
 
 enableValidation(VALIDATION_CONFIG);
 
-//создание экземпляра класса Userinfo
+// Создание экземпляра класса Userinfo:
 
 const userInfo = new UserInfo('.profile__name', '.profile__description');
 
-// создание экземпляра класса PopupWithForm для попапа редактирования профиля
+// Создание экземпляра класса PopupWithForm для попапа редактирования профиля:
 
 const popupEditProfile = new PopupWithForm('.popup-edit-profile',
-  function handleFormSubmit() {
-    //собрали данные пользователя:
-    const data = popupEditProfile._getInputValues(); 
-    //подставляем данные пользователя на страницу:
-    userInfo.setUserInfo(data);
+  function handleFormSubmit(formData) {
+    userInfo.setUserInfo(formData);
+
+    popupEditProfile.close();
+    // cбросили ошибки:
+    formValidators['edit-profile-form'].resetValidation();
   }
 )
 popupEditProfile.setEventListeners();
 
-//создание экземпляра класса PopupWithForm для попапа добавления карточки места
+// Создание экземпляра класса PopupWithForm для попапа добавления карточки места:
 
 const popupAddPlace = new PopupWithForm('.popup-add-place',
-  function handleFormSubmit() {
-    // собрали значения инпутов:
-    const data = popupAddPlace._getInputValues();
-
+  function handleFormSubmit(formData) {
     // добавили новое свойство объекту с данными карточки и присвоили 
-    // ему значение св-ва title
-    data.name = data.title;
-    // создали массив и добавили туда объект с данными карточки
-    const dataArray = [];
-    dataArray.push(data);
+    // ему значение св-ва title:
+    formData.name = formData.title;
 
-    const cardElement = new Section({
-      items: dataArray,
-      renderer: (item) => {
-        const placeCard = createCard(item);
+    const newCard = createCard(formData);
+    cardsSection.addItem(newCard);
 
-        placesContainer.prepend(placeCard); // добавляет в начало контейнера
-      }
-    }, placesContainerSelector
-    );
-    cardElement.renderItems();
+    popupAddPlace.close();
+    // cбросили ошибки:
+    formValidators['add-place-form'].resetValidation();
   }
 );
 popupAddPlace.setEventListeners();
 
-// слушатель кнопки редактирования профиля
+// Создание экземпляра класса PopupWithImage:
 
-editProfileButton.addEventListener('click', () => {
+const popupImgView = new PopupWithImage('.popup-imageview');
+popupImgView.setEventListeners();
+
+// Обработчик клика кнопки редактирования профиля:
+
+function handleEditProfileClick() {
   formValidators['edit-profile-form'].resetValidation();
   // собрали данные пользователя со страницы:
   const data = userInfo.getUserInfo();
   // подставили в инпуты формы:
   inputName.value = data.name;
   inputDescription.value = data.description;
-
   popupEditProfile.open();
-});
+}
 
-// слушатель кнопки создания карточки
+// Установка слушателя на кнопку редактирования профиля:
 
-addPlaceButton.addEventListener('click', () => {
+editProfileButton.addEventListener('click', handleEditProfileClick);
+
+// Обработчик клика кнопки создания карточки:
+
+function handleAddPlaceClick() {
+  // сбросили ошибки:
   formValidators['add-place-form'].resetValidation();
-
-  inputTitle.value = null;
-  inputLink.value = null;
+  // очистили поля формы:
+  document.forms['add-place-form'].reset();
   popupAddPlace.open();
-});
+}
+
+// Установка слушателя на кнопку создания карточки:
+
+addPlaceButton.addEventListener('click', handleAddPlaceClick);
 
 

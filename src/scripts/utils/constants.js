@@ -10,6 +10,9 @@ export const addPlaceButton = document.querySelector('.add-button');
 export const inputTitle = document.querySelector('.popup__input_type_title');
 export const inputLink = document.querySelector('.popup__input_type_link');
 
+export const popupImgViewPic = document.querySelector('.popup-imageview__img');
+export const popupImgViewCaption = document.querySelector('.popup-imageview__caption');
+
 import dagestan from '../../images/places/dagestan.jpg';
 import elbrus from '../../images/places/elbrus.jpg';
 import dombay from  '../../images/places/dombay.jpg';

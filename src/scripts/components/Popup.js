@@ -2,32 +2,29 @@ export default class Popup {
   constructor(popupSelector) {
     this._popup = document.querySelector(popupSelector);
     this._closeButton = this._popup.querySelector('.popup__close-button');
+
+    this._handleEscClose = this._handleEscClose.bind(this);
   }
 
-//публичный метод отвечающий
-//  за открытие попапа
   open() {
     this._popup.classList.add('popup_opened');
-    document.addEventListener('keydown', this._handleEscClose.bind(this));
+    document.addEventListener('keydown', this._handleEscClose);
   }
 
-//публичный метод отвечающий
-// за закрытие попапа
   close() {
     this._popup.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._handleEscClose.bind(this));
+    document.removeEventListener('keydown', this._handleEscClose);
   }
 
-//приватный метод закрытия по Esc
+// Приватный метод закрытия по Esc
   _handleEscClose(event) {
     if(event.key === 'Escape') {
       this.close();
     }
   }
 
-  //добавляет слушатель клика иконке 
-  // закрытия попапа. Модальное окно 
-  // также закрывается при клике на 
+  // Метод добавляет слушатель клика иконке закрытия попапа. 
+  // Модальное окно также закрывается при клике на 
   // затемнённую область вокруг формы.
   setEventListeners() {
     this._closeButton.addEventListener('click', () => this.close());
