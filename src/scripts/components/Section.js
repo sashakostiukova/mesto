@@ -15,9 +15,15 @@ export default class Section {
   }
 
 // публичный метод, который принимает DOM-элемент
-// и добавляет его в контейнер.
-  addItem(elem) {
+// и добавляет его в конец контейнера
+appendItem(elem) {
     this._container.append(elem);
+  }
+
+// публичный метод, который принимает DOM-элемент
+// и добавляет его в конец контейнера
+  prependItem(elem) {
+    this._container.prepend(elem);
   }
 
 }

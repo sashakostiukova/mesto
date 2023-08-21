@@ -39,7 +39,7 @@ const cardsSection = new Section({
   items: initialCards,
   renderer: (item) => {
     const placeCard = createCard(item);
-    cardsSection.addItem(placeCard);
+    cardsSection.appendItem(placeCard);
    }
   }, placesContainerSelector
 );
@@ -86,7 +86,7 @@ const popupAddPlace = new PopupWithForm('.popup-add-place',
     formData.name = formData.title;
 
     const newCard = createCard(formData);
-    cardsSection.addItem(newCard);
+    cardsSection.prependItem(newCard);
 
     popupAddPlace.close();
     // cбросили ошибки:
