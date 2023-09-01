@@ -1,5 +1,4 @@
 import Popup from "./Popup";
-import { formValidators } from '../utils/constants.js'
 
 // Кроме селектора попапа принимает в конструктор колбэк сабмита формы.
 export default class PopupWithForm extends Popup {

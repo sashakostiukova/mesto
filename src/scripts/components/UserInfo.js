@@ -1,4 +1,3 @@
-
 // Класс UserInfo отвечает за управление отображением информации о 
 // пользователе на странице. 
 
@@ -22,9 +21,10 @@ export default class UserInfo {
 
 // публичный метод, который принимает 
 // новые данные пользователя и добавляет их на страницу.
-  setUserInfo({name, description}) {
-    this._name.textContent = name;
-    this._description.textContent = description;
+  setUserInfo(data) {
+    this._name.textContent = data.name;
+    this._description.textContent = data.description;
+    this.id = data._id;
   }
 }
 

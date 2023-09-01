@@ -3,7 +3,6 @@
   width: 22px;
   height: 19px;
   border: none;
-  margin-left: 25px;
   transition: opacity 0.2s ease;
 }
 .place__like-button:hover {
