@@ -31,9 +31,9 @@ const api = new Api(apiConfig);
 // Функция удаления карточки с сервера:
 
 const handleClickDelete = (card) => {
-  api.deleteCard(card._cardId)
+  api.deleteCard(card.cardId)
     .then(() => {
-      card._handleClickDelete();
+      card.handleClickDelete();
       popupWithConfirmation.close();
     })
     .catch((err) => {
@@ -45,17 +45,17 @@ const handleClickDelete = (card) => {
 
 const handleClickLike = (card) => {
   if(card.isLiked) {
-    api.deleteLike(card._cardId)
+    api.deleteLike(card.cardId)
       .then((cardObj) => {
         if (cardObj.likes.length === 0) {
-          card._newCard.querySelector('.place__likes-counter')
+          card.newCard.querySelector('.place__likes-counter')
           .textContent = '';
         } else {
-          card._newCard.querySelector('.place__likes-counter')
+          card.newCard.querySelector('.place__likes-counter')
           .textContent = cardObj.likes.length;
         }
         card.isLiked = false;
-        card._placeLikeButton
+        card.placeLikeButton
         .classList.remove('place__like-button_active');
       })
       .catch((err) => {
@@ -64,12 +64,12 @@ const handleClickLike = (card) => {
 
   } else {
 
-    api.like(card._cardId)
+    api.like(card.cardId)
       .then((cardObj) => {
-        card._newCard.querySelector('.place__likes-counter')
+        card.newCard.querySelector('.place__likes-counter')
         .textContent = cardObj.likes.length;
         card.isLiked = true;
-        card._placeLikeButton
+        card.placeLikeButton
         .classList.add('place__like-button_active');
       })
       .catch((err) => {
@@ -92,7 +92,7 @@ function handleCardClick(name, link) {
   popupImgView.open(name, link);
 }
 
-// Рендер карточек:
+// Функция создания элемента карточки места:
 
 function createCard(data) {
   const cardElement = new Card(
@@ -106,17 +106,14 @@ function createCard(data) {
   return cardElement.generateCard();
 }
 
+//  Создание экземпляра класса Section для секции карточек мест:
+
 const cardsSection = new Section({renderer: (item) => {
     const placeCard = createCard(item);
     cardsSection.appendItem(placeCard);
     }
   }, placesContainerSelector
 );
-
-api.getAllCards()
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  }); 
 
 // Включение валидации:
 
@@ -136,20 +133,15 @@ enableValidation(VALIDATION_CONFIG);
 
 const userInfo = new UserInfo('.profile__name', '.profile__description');
 
-// Загрузка информации о пользователе с сервера:
-
-api.getUserInfo()
-  .then((userData) => {
-    const data = { ...userData, description: userData.about};
-    userInfo.setUserInfo(data);
-    userAvatar.src = data.avatar;
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
+// Загрузка информации о пользователе с сервера,
+// получение и рендер карточек:
 
   Promise.all([api.getAllCards(), api.getUserInfo()])
     .then(([cards, user]) => {
+      const userData = { ...user, description: user.about};
+      userInfo.setUserInfo(userData);
+      userAvatar.src = userInfo.avatar;
+
       cardsSection.renderItems(cards);
     })
     .catch((err) => {

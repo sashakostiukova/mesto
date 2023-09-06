@@ -25,6 +25,7 @@ export default class UserInfo {
     this._name.textContent = data.name;
     this._description.textContent = data.description;
     this.id = data._id;
+    this.avatar = data.avatar;
   }
 }
 
